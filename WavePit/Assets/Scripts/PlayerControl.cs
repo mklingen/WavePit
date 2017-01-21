@@ -21,7 +21,7 @@ public class PlayerControl : MonoBehaviour {
         Vector3 moveDirection = Camera.main.transform.right * Input.GetAxis("Horizontal") + Camera.main.transform.forward * Input.GetAxis("Vertical");
 
 
-        float curr_speed = Mathf.Min(moveDirection.magnitude * 10, speed);
+        float curr_speed = Mathf.Min(moveDirection.magnitude * 5, speed);
         velocity = moveDirection.normalized * curr_speed;
         controller.SimpleMove(velocity);
         Vector3 cameraOffset = (player.transform.position - cameraTarget.transform.position).normalized * cameraDist;
@@ -34,6 +34,10 @@ public class PlayerControl : MonoBehaviour {
     void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.tag == "DeathZone")
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+        else if (collision.transform.tag == "WinZone")
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
