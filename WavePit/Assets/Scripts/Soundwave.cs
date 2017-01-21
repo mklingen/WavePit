@@ -14,6 +14,7 @@ public class Soundwave : MonoBehaviour {
     public bool pushingplayer = false;
     public float playerdist = 0;
     public Vector3 currentPushForce = Vector3.zero;
+    public Material psychoMaterial;
 	// Use this for initialization
 	void Start () {
         currentLife = maxLife;
@@ -24,7 +25,7 @@ public class Soundwave : MonoBehaviour {
         currentSize += (growthRate) * Time.deltaTime;
         gameObject.transform.localScale = Vector3.one * currentSize;
         currentLife -= Time.deltaTime;
-
+        psychoMaterial.SetFloat("_timeOffset", currentLife / maxLife);
         if (currentLife < 0)
         {
             Destroy(gameObject);
