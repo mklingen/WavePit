@@ -13,6 +13,7 @@ public class Soundwave : MonoBehaviour {
     public float pushForce = 10;
     public bool pushingplayer = false;
     public float playerdist = 0;
+    public Vector3 currentPushForce = Vector3.zero;
 	// Use this for initialization
 	void Start () {
         currentLife = maxLife;
@@ -31,14 +32,16 @@ public class Soundwave : MonoBehaviour {
         playerdist = (player.transform.position - source.transform.position).magnitude;
         RaycastHit hitInfo;
         int mask = 1 << raycastLayer;
-        if (Mathf.Abs(playerdist - currentSize * 0.5f) < 0.5f &&
+        if (Mathf.Abs(playerdist - currentSize * 0.5f) < 5.0f &&
             !Physics.Raycast(source.transform.position, player.transform.position - source.transform.position, out hitInfo, currentSize * 0.5f, mask))
         {
             pushingplayer = true;
             Vector3 moveForce = player.transform.position - source.transform.position;
             moveForce = moveForce.normalized;
             moveForce *= pushForce;
-            player.GetComponent<CharacterController>().SimpleMove(moveForce);
+            pushForce *= 0.5f;
+            currentPushForce += moveForce * 0.1f;
+            player.GetComponent<CharacterController>().Move(currentPushForce * Time.deltaTime);
         }
 	}
 }
