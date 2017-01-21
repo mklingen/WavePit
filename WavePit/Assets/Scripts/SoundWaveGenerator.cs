@@ -10,6 +10,7 @@ public class SoundWaveGenerator : MonoBehaviour {
     public GameObject player;
     public ParticleSystem particles;
     public Material psychoMaterial;
+    public ParticleSystem snow;
 	// Use this for initialization
 	void Start () {
 		
@@ -18,8 +19,10 @@ public class SoundWaveGenerator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         currentTime += Time.deltaTime;
+        GetComponent<WindZone>().windMain *= 0.9f;
         if (currentTime > soundGenerateTime)
         {
+            GetComponent<WindZone>().windMain = -1000;
             var sound = Instantiate(soundwave, gameObject.transform.position, gameObject.transform.rotation);
             sound.GetComponent<Soundwave>().player = player;
             sound.GetComponent<Soundwave>().source = gameObject;

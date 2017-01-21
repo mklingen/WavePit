@@ -15,6 +15,7 @@ public class Soundwave : MonoBehaviour {
     public float playerdist = 0;
     public Vector3 currentPushForce = Vector3.zero;
     public Material psychoMaterial;
+  
 	// Use this for initialization
 	void Start () {
         currentLife = maxLife;
