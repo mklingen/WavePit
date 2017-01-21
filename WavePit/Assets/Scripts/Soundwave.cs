@@ -25,7 +25,8 @@ public class Soundwave : MonoBehaviour {
         currentSize += (growthRate) * Time.deltaTime;
         gameObject.transform.localScale = Vector3.one * currentSize;
         currentLife -= Time.deltaTime;
-        psychoMaterial.SetFloat("_timeOffset", currentLife / maxLife);
+        psychoMaterial.SetFloat("_timeOffset", Time.realtimeSinceStartup);
+        psychoMaterial.SetFloat("_waveRadius", currentSize);
         if (currentLife < 0)
         {
             Destroy(gameObject);
@@ -38,11 +39,13 @@ public class Soundwave : MonoBehaviour {
         {
             pushingplayer = true;
             Vector3 moveForce = player.transform.position - source.transform.position;
-            moveForce = moveForce.normalized;
+            moveForce *= (1.0f / (moveForce.magnitude));
             moveForce *= pushForce;
-            pushForce *= 0.5f;
-            currentPushForce += moveForce * 0.1f;
+            pushForce *= 0.9f;
+            moveForce.y += pushForce * 0.005f;
+            currentPushForce += moveForce * Time.deltaTime;
             player.GetComponent<CharacterController>().Move(currentPushForce * Time.deltaTime);
+            currentPushForce *= 0.9f;
         }
 	}
 }

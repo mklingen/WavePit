@@ -30,4 +30,12 @@ public class PlayerControl : MonoBehaviour {
         Camera.main.transform.position = currCamPos;
         Camera.main.transform.LookAt(0.5f * (cameraTarget.transform.position + player.transform.position));
 	}
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.transform.tag == "DeathZone")
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+    }
 }
