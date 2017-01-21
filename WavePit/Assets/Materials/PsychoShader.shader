@@ -36,7 +36,7 @@ Shader "Custom/PsychoShader" {
 				float3 worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 				float n = length(worldPos);
 				float texBlend = 1.0 - clamp(abs(_waveRadius - n) * 0.1f, 0, 1);
-				o.pos = UnityObjectToClipPos(v.vertex + float3(0, sin(_timeOffset * 2 + n) * texBlend, 0));
+				o.pos = UnityObjectToClipPos(v.vertex + float3(0, sin(_timeOffset * 2 + n) * texBlend * 2, 0));
 				o.pos3D = worldPos;
 				// get vertex normal in world space
 				half3 worldNormal = UnityObjectToWorldNormal(v.normal);
