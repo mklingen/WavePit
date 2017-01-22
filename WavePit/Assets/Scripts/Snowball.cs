@@ -40,8 +40,8 @@ public class Snowball : MonoBehaviour
         Debug.DrawLine(gameObject.transform.position, collision.gameObject.transform.position);
         if (collision.gameObject.tag == "Obstacle")
         {
-            Instantiate(explosion, gameObject.transform);
-            explosion.GetComponent<ParticleSystem>().Play();
+            GameObject explode = Instantiate(explosion, gameObject.transform.position, gameObject.transform.rotation);
+            explode.GetComponent<ParticleSystem>().Play();
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
