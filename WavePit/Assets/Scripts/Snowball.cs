@@ -10,6 +10,8 @@ public class Snowball : MonoBehaviour
     public float timeToHit;
     public float extraHeight;
     public float g;
+    public GameObject explosion;
+
     // Use this for initialization
     void Start()
     {
@@ -35,11 +37,11 @@ public class Snowball : MonoBehaviour
 
     void OnTriggerEnter(Collider collision)
     {
-        Debug.Log("Yes");
-        Debug.Log(collision.gameObject.tag);
         Debug.DrawLine(gameObject.transform.position, collision.gameObject.transform.position);
         if (collision.gameObject.tag == "Obstacle")
         {
+            Instantiate(explosion, gameObject.transform);
+            explosion.GetComponent<ParticleSystem>().Play();
             Destroy(collision.gameObject);
             Destroy(gameObject);
         }
