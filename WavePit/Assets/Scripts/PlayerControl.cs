@@ -14,7 +14,7 @@ public class PlayerControl : MonoBehaviour {
     public Animation runAnimation;
     public SpriteRenderer winScreen;
     public SpriteRenderer loseScreen;
-
+    public Animator animator;
 	// Use this for initialization
 	void Start () {
         controller = player.GetComponent<CharacterController>();
@@ -26,6 +26,15 @@ public class PlayerControl : MonoBehaviour {
 	void Update () {
         float right = Input.GetAxis("Horizontal");
         float up = Input.GetAxis("Vertical");
+
+        if (Mathf.Abs(right) > 0.01f || Mathf.Abs(up) > 0.01f)
+        {
+            animator.SetFloat("AnimationSpeed", 1.0f);
+        }
+        else
+        {
+            animator.SetFloat("AnimationSpeed", 0.0f);
+        }
         Vector3 moveDirection = Camera.main.transform.right * right + Camera.main.transform.forward * up;
 
         float curr_speed = Mathf.Min(moveDirection.magnitude * 5, speed);
