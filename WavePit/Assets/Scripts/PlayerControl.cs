@@ -35,6 +35,9 @@ public class PlayerControl : MonoBehaviour {
         {
             animator.SetFloat("AnimationSpeed", 0.0f);
         }
+
+        animator.SetBool("FlipAnimation", right < 0);
+
         Vector3 moveDirection = Camera.main.transform.right * right + Camera.main.transform.forward * up;
 
         float curr_speed = Mathf.Min(moveDirection.magnitude * 5, speed);
