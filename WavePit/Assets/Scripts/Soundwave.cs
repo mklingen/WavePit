@@ -46,7 +46,6 @@ public class Soundwave : MonoBehaviour {
             Vector3 start = source.transform.position;
             Vector3 end = player.transform.position;
             bool rayCastSuccess = Physics.Raycast(start, dir, out hitInfo, (start - end).magnitude, mask);
-            pushingplayer = true;
             if (rayCastSuccess)
             {
                 if (!splashSource.isPlaying)
@@ -61,6 +60,7 @@ public class Soundwave : MonoBehaviour {
             }
             else
             {
+                pushingplayer = true;
                 if (!splashSource.isPlaying)
                 {
                     splashSource.clip = hurtClip;
@@ -86,7 +86,8 @@ public class Soundwave : MonoBehaviour {
             if (pushForce < 0)
             {
                 currentPushForce = Vector3.zero;
-                pushForce = 0; 
+                pushForce = 0;
+                pushingplayer = false;
             }
         }
 	}
