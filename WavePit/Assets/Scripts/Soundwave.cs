@@ -19,6 +19,7 @@ public class Soundwave : MonoBehaviour {
     public ParticleSystem splashParticles;
     public AudioClip splashClip;
     public AudioClip hurtClip;
+    public float pushTime = 0.5f;
 
     // Use this for initialization
     void Start () {
@@ -83,11 +84,13 @@ public class Soundwave : MonoBehaviour {
             currentPushForce += moveForce * Time.deltaTime;
             player.GetComponent<CharacterController>().Move(currentPushForce * Time.deltaTime);
             pushForce -= Time.deltaTime * 500;
-            if (pushForce < 0)
+            pushTime -= Time.deltaTime;
+
+            
+            if (pushForce < 0 || pushTime < 0)
             {
                 currentPushForce = Vector3.zero;
                 pushForce = 0;
-                pushingplayer = false;
             }
         }
 	}
