@@ -14,7 +14,12 @@ public class SoundWaveGenerator : MonoBehaviour {
     public AudioClip hit1;
     public AudioClip hit2;
     public AudioClip hit3;
+    public AudioClip hug;
+    public AudioClip snowThrow1;
+    public AudioClip snowThrow2;
+    public AudioClip snowThrow3;
     public List<AudioClip> hits;
+    public List<AudioClip> throws;
     public bool playedSound = false;
     public float hitSoundWarmupTime;
     public AudioSource splashSource;
@@ -33,6 +38,7 @@ public class SoundWaveGenerator : MonoBehaviour {
     // Use this for initialization
     void Start () {
         hits = new List<AudioClip>() { hit1, hit2, hit3 };
+        throws = new List<AudioClip>() { snowThrow1, snowThrow2, snowThrow3 };
 	}
 	
 	// Update is called once per frame
@@ -40,7 +46,7 @@ public class SoundWaveGenerator : MonoBehaviour {
         currentTime += Time.deltaTime;
         GetComponent<WindZone>().windMain *= 0.9f;
         gameObject.transform.LookAt(player.transform);
-        if (currentTime > soundGenerateTime - hitSoundWarmupTime && !playedSound)
+        if (currentTime > soundGenerateTime - hitSoundWarmupTime && !playedSound && mode == Mode.GenerateSounds)
         {
             var source = GetComponent<AudioSource>();
             source.clip = hits[(int)Random.Range(0, 3)];
@@ -64,6 +70,9 @@ public class SoundWaveGenerator : MonoBehaviour {
             }
             else
             {
+                var source = GetComponent<AudioSource>();
+                source.clip = throws[(int)Random.Range(0, 3)];
+                source.Play();
                 var ball = Instantiate(snowBall, gameObject.transform.position, gameObject.transform.rotation);
                 ball.GetComponent<Snowball>().target = player.transform.position;
                 mode = Mode.GenerateSounds;
