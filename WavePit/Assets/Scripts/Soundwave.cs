@@ -39,14 +39,14 @@ public class Soundwave : MonoBehaviour {
         playerdist = (player.transform.position - source.transform.position).magnitude;
         RaycastHit hitInfo;
         int mask = 1 << raycastLayer;
-        if (Mathf.Abs(playerdist - currentSize * 0.5f) < 5.0f)
+        if (!pushingplayer && Mathf.Abs(playerdist - currentSize * 0.5f) < 2.0f)
         {
             Vector3 dir = player.transform.position - source.transform.position;
             dir = dir.normalized;
             Vector3 start = source.transform.position;
             Vector3 end = player.transform.position;
             bool rayCastSuccess = Physics.Raycast(start, dir, out hitInfo, (start - end).magnitude, mask);
-
+            pushingplayer = true;
             if (rayCastSuccess)
             {
                 if (!splashSource.isPlaying)
@@ -70,15 +70,23 @@ public class Soundwave : MonoBehaviour {
                     splashParticles.Play();
                     Debug.DrawRay(start, hitInfo.point, Color.red, 1.0f, true);
                 }
-                pushingplayer = true;
-                Vector3 moveForce = player.transform.position - source.transform.position;
-                moveForce *= (1.0f / (moveForce.magnitude));
-                moveForce *= pushForce;
-                pushForce *= 0.9f;
-                moveForce.y += pushForce * 0.005f;
-                currentPushForce += moveForce * Time.deltaTime;
-                player.GetComponent<CharacterController>().Move(currentPushForce * Time.deltaTime);
-                currentPushForce *= 0.9f;
+            }
+        }
+
+        if (pushingplayer)
+        {
+            Vector3 moveForce = player.transform.position - source.transform.position;
+            moveForce *= (1.0f / (moveForce.magnitude));
+            moveForce *= pushForce;
+            pushForce *= 0.9f;
+            moveForce.y += pushForce * 0.005f;
+            currentPushForce += moveForce * Time.deltaTime;
+            player.GetComponent<CharacterController>().Move(currentPushForce * Time.deltaTime);
+            pushForce -= Time.deltaTime * 500;
+            if (pushForce < 0)
+            {
+                currentPushForce = Vector3.zero;
+                pushForce = 0; 
             }
         }
 	}

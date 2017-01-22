@@ -43,7 +43,7 @@ public class PlayerControl : MonoBehaviour {
 
         Vector3 moveDirection = Camera.main.transform.right * right + Camera.main.transform.forward * up;
 
-        float curr_speed = Mathf.Min(moveDirection.magnitude * 5, speed);
+        float curr_speed = Mathf.Min(moveDirection.magnitude * speed, speed);
         velocity = moveDirection.normalized * curr_speed;
         controller.SimpleMove(velocity);
         Vector3 cameraOffset = (player.transform.position - cameraTarget.transform.position).normalized * cameraDist;
