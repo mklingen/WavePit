@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundWaveGenerator : MonoBehaviour {
 
     public GameObject soundwave;
-    public float soundGenerateTime = 1.5f;
+    public float soundGenerateTime = 0.5f;
     public float currentTime = 0;
     public GameObject player;
     public ParticleSystem particles;
