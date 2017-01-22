@@ -12,10 +12,15 @@ public class PlayerControl : MonoBehaviour {
     public float cameraDist = 10.0f;
     public float cameraSpeed = 0.05f;
     public Animation runAnimation;
+    public SpriteRenderer winScreen;
+    public SpriteRenderer loseScreen;
+
 	// Use this for initialization
 	void Start () {
         controller = player.GetComponent<CharacterController>();
-	}
+        loseScreen.gameObject.SetActive(false);
+        winScreen.gameObject.SetActive(false);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -34,15 +39,45 @@ public class PlayerControl : MonoBehaviour {
         gameObject.transform.LookAt(new Vector3(0, gameObject.transform.position.y, 0));
 	}
 
+    IEnumerator waitForDeath()
+    {
+        float time = 0;
+        while (time < 5 * 0.1f)
+        {
+            time += Time.deltaTime;
+            loseScreen.gameObject.SetActive(true);
+            Time.timeScale = 0.1f;
+            yield return null;
+        }
+        Time.timeScale = 1.0f;
+        loseScreen.gameObject.SetActive(false);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    IEnumerator waitForWin()
+    {
+        float time = 0;
+        while (time < 5 * 0.1f)
+        {
+            time += Time.deltaTime;
+            winScreen.gameObject.SetActive(true);
+            Time.timeScale = 0.1f;
+            yield return null;
+        }
+        Time.timeScale = 1.0f;
+        winScreen.gameObject.SetActive(false);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
     void OnTriggerEnter(Collider collision)
     {
         if (collision.transform.tag == "DeathZone")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            StartCoroutine("waitForDeath");
         }
         else if (collision.transform.tag == "WinZone")
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+            StartCoroutine("waitForWin");
         }
     }
 }

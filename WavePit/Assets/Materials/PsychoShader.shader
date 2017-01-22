@@ -6,6 +6,7 @@ Shader "Custom/PsychoShader" {
 		_timeOffset("Time Offset", Float) = 0.5
 		_waveRadius("Wave Radius", Float) = 1.0
 		_baseColor("Base Color", Color) = (1, 1, 1, 1)
+	    _MainTex("Main Texture", 2D) = "white" {}
 		}
 		SubShader{
 			Tags {"LightMode" = "ForwardBase"}
@@ -20,13 +21,16 @@ Shader "Custom/PsychoShader" {
 #pragma multi_compile_fwdbase
 			#include "AutoLight.cginc"
 			sampler2D _HueTex;
+			sampler2D _MainTex;
 			float _timeOffset;
 			float _waveRadius;
 			float4 _baseColor;
+			float4 _MainTex_ST;
 			struct v2f {
 				float4 pos : SV_POSITION;
 				float4 color : COLOR0;
 				float3 pos3D : POSITION1;
+				float2 uv : TEXCOORD1;
 				LIGHTING_COORDS(0, 1)
 			};
 
@@ -46,15 +50,17 @@ Shader "Custom/PsychoShader" {
 				// factor in the light color
 				o.color = nl * _LightColor0 * _baseColor;
 				TRANSFER_VERTEX_TO_FRAGMENT(o);
+				o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
 				return o;
 			}
 
 			fixed4 frag(v2f i) : SV_Target
 			{
 				float n = length(i.pos3D);
-				float4 texColor = tex2D(_HueTex, float2((n * 0.01 + _timeOffset / 6), 0.5f));
+				float4 diffuse_color = tex2D(_MainTex, i.uv);
+				float4 texColor = tex2D(_HueTex, float2((n * 0.01 * diffuse_color.x + _timeOffset / 6), _timeOffset));
 				float texBlend = clamp(abs(_waveRadius - n) * 0.1f, 0, 1);
-				return  (texColor * (1.0 - texBlend) + (texBlend) * i.color) * LIGHT_ATTENUATION(i);
+				return  (texColor * (1.0 - texBlend) + (texBlend) * (i.color * 0.75 + 0.25 * diffuse_color)) * LIGHT_ATTENUATION(i);
 			}
 				ENDCG
 

@@ -17,8 +17,11 @@ public class SoundWaveGenerator : MonoBehaviour {
     public List<AudioClip> hits;
     public bool playedSound = false;
     public float hitSoundWarmupTime;
-	// Use this for initialization
-	void Start () {
+    public AudioSource splashSource;
+
+
+    // Use this for initialization
+    void Start () {
         hits = new List<AudioClip>() { hit1, hit2, hit3 };
 	}
 	
@@ -40,6 +43,7 @@ public class SoundWaveGenerator : MonoBehaviour {
             sound.GetComponent<Soundwave>().player = player;
             sound.GetComponent<Soundwave>().source = gameObject;
             sound.GetComponent<Soundwave>().psychoMaterial = psychoMaterial;
+            sound.GetComponent<Soundwave>().splashSource = splashSource;
             currentTime = 0;
             particles.Play();
             playedSound = false;
