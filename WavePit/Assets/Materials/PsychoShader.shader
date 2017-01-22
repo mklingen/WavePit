@@ -59,7 +59,7 @@ Shader "Custom/PsychoShader" {
 				float n = length(i.pos3D);
 				float4 diffuse_color = tex2D(_MainTex, i.uv);
 				float4 texColor = tex2D(_HueTex, float2((n * 0.01 * diffuse_color.x + _timeOffset / 6), _timeOffset));
-				float texBlend = clamp(abs(_waveRadius - n) * 0.1f, 0, 1);
+				float texBlend = clamp(abs(_waveRadius - n) * 0.05f, 0, 1);
 				return  (texColor * (1.0 - texBlend) + (texBlend) * (i.color * 0.75 + 0.25 * diffuse_color)) * LIGHT_ATTENUATION(i);
 			}
 				ENDCG

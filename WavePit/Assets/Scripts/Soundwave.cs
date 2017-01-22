@@ -41,7 +41,7 @@ public class Soundwave : MonoBehaviour {
         {
             Vector3 dir = player.transform.position - source.transform.position;
             dir = dir.normalized;
-            Vector3 start = source.transform.position + dir * currentSize * 0.2f;
+            Vector3 start = source.transform.position;
             Vector3 end = player.transform.position;
             bool rayCastSuccess = Physics.Raycast(start, dir, out hitInfo, (start - end).magnitude, mask);
 
