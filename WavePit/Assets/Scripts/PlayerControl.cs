@@ -76,6 +76,8 @@ public class PlayerControl : MonoBehaviour {
         winLoseSource.clip = winClip;
         winLoseSource.Play();
         float time = 0;
+        FindObjectOfType<SoundWaveGenerator>().GetComponentInChildren<Animator>().SetTrigger("Hug");
+        animator.gameObject.SetActive(false);
         while (time < 5 * 0.1f)
         {
             time += Time.deltaTime;
