@@ -78,11 +78,11 @@ public class Footsteps : MonoBehaviour {
 
 				steps.clip = footsteps1 [Random.Range (0, footsteps1.Length)];
 				steps.pitch = Random.Range (0.7f, 0.8f);
-				steps.volume = 0.8f;
+				steps.volume = 0.5f;
 				steps.Play ();
 
 
-			yield return new WaitForSeconds (0.31f);
+			yield return new WaitForSeconds (0.5f);
 			isPlaying = false;
 		}
 
