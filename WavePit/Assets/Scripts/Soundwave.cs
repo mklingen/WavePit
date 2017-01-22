@@ -7,8 +7,8 @@ public class Soundwave : MonoBehaviour {
     public GameObject player;
     public float growthRate = 0.1f;
     public float maxLife = 1.0f;
-    public float currentLife = 1.0f;
-    public float currentSize = 1;
+    public float currentLife = 0.0f;
+    public float currentSize = 0;
     public int raycastLayer = 0;
     public float pushForce = 10;
     public bool pushingplayer = false;
@@ -17,6 +17,7 @@ public class Soundwave : MonoBehaviour {
     public Material psychoMaterial;
     public AudioSource splashSource;
     public ParticleSystem splashParticles;
+
 
     // Use this for initialization
     void Start () {

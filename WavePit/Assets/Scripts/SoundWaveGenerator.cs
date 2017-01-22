@@ -19,6 +19,16 @@ public class SoundWaveGenerator : MonoBehaviour {
     public float hitSoundWarmupTime;
     public AudioSource splashSource;
     public ParticleSystem splashParticles;
+    public GameObject snowBall;
+
+
+    public enum Mode
+    {
+        GenerateSounds,
+        ThrowSnowballs
+    }
+
+    public Mode mode = Mode.GenerateSounds;
 
     // Use this for initialization
     void Start () {
@@ -29,6 +39,7 @@ public class SoundWaveGenerator : MonoBehaviour {
 	void Update () {
         currentTime += Time.deltaTime;
         GetComponent<WindZone>().windMain *= 0.9f;
+
         if (currentTime > soundGenerateTime - hitSoundWarmupTime && !playedSound)
         {
             var source = GetComponent<AudioSource>();
@@ -38,15 +49,25 @@ public class SoundWaveGenerator : MonoBehaviour {
         }
         if (currentTime > soundGenerateTime)
         {
-            GetComponent<WindZone>().windMain = -1000;
-            var sound = Instantiate(soundwave, gameObject.transform.position, gameObject.transform.rotation);
-            sound.GetComponent<Soundwave>().player = player;
-            sound.GetComponent<Soundwave>().source = gameObject;
-            sound.GetComponent<Soundwave>().psychoMaterial = psychoMaterial;
-            sound.GetComponent<Soundwave>().splashSource = splashSource;
-            sound.GetComponent<Soundwave>().splashParticles = splashParticles;
+            if (mode == Mode.GenerateSounds)
+            {
+                GetComponent<WindZone>().windMain = -1000;
+                var sound = Instantiate(soundwave, gameObject.transform.position, gameObject.transform.rotation);
+                sound.GetComponent<Soundwave>().player = player;
+                sound.GetComponent<Soundwave>().source = gameObject;
+                sound.GetComponent<Soundwave>().psychoMaterial = psychoMaterial;
+                sound.GetComponent<Soundwave>().splashSource = splashSource;
+                sound.GetComponent<Soundwave>().splashParticles = splashParticles;
+                mode = Mode.ThrowSnowballs;
+                particles.Play();
+            }
+            else
+            {
+                var ball = Instantiate(snowBall, gameObject.transform.position, gameObject.transform.rotation);
+                ball.GetComponent<Snowball>().target = player.transform.position;
+                mode = Mode.GenerateSounds;
+            }
             currentTime = 0;
-            particles.Play();
             playedSound = false;
         }
 	}
