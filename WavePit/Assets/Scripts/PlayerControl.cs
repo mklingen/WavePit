@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour {
     public float cameraHeight = 30.0f;
     public float cameraDist = 10.0f;
     public float cameraSpeed = 0.05f;
+    public Animation runAnimation;
 	// Use this for initialization
 	void Start () {
         controller = player.GetComponent<CharacterController>();
@@ -18,8 +19,9 @@ public class PlayerControl : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 moveDirection = Camera.main.transform.right * Input.GetAxis("Horizontal") + Camera.main.transform.forward * Input.GetAxis("Vertical");
-
+        float right = Input.GetAxis("Horizontal");
+        float up = Input.GetAxis("Vertical");
+        Vector3 moveDirection = Camera.main.transform.right * right + Camera.main.transform.forward * up;
 
         float curr_speed = Mathf.Min(moveDirection.magnitude * 5, speed);
         velocity = moveDirection.normalized * curr_speed;
@@ -29,6 +31,7 @@ public class PlayerControl : MonoBehaviour {
         Vector3 currCamPos = (player.transform.position + cameraOffset) * cameraSpeed + Camera.main.transform.position * (1.0f - cameraSpeed);
         Camera.main.transform.position = currCamPos;
         Camera.main.transform.LookAt(0.5f * (cameraTarget.transform.position + player.transform.position));
+        gameObject.transform.LookAt(new Vector3(0, gameObject.transform.position.y, 0));
 	}
 
     void OnTriggerEnter(Collider collision)
