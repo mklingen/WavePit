@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour {
     public Animator animator;
     public AudioClip dieClip;
     public AudioClip winClip;
+    public AudioSource winLoseSource;
 	// Use this for initialization
 	void Start () {
         controller = player.GetComponent<CharacterController>();
@@ -56,7 +57,8 @@ public class PlayerControl : MonoBehaviour {
     IEnumerator waitForDeath()
     {
         float time = 0;
-        AudioSource.PlayClipAtPoint(dieClip, Camera.main.transform.position, 1.0f);
+        winLoseSource.clip = dieClip;
+        winLoseSource.Play();
         while (time < 5 * 0.1f)
         {
             time += Time.deltaTime;
@@ -71,7 +73,8 @@ public class PlayerControl : MonoBehaviour {
 
     IEnumerator waitForWin()
     {
-        AudioSource.PlayClipAtPoint(winClip, Camera.main.transform.position, 1.0f);
+        winLoseSource.clip = winClip;
+        winLoseSource.Play();
         float time = 0;
         while (time < 5 * 0.1f)
         {

@@ -24,6 +24,8 @@ public class SoundWaveGenerator : MonoBehaviour {
     public float hitSoundWarmupTime;
     public AudioSource splashSource;
     public ParticleSystem splashParticles;
+    public AudioClip splashClip;
+    public AudioClip hurtClip;
     public GameObject snowBall;
     public Animator animator;
 
@@ -65,6 +67,8 @@ public class SoundWaveGenerator : MonoBehaviour {
                 sound.GetComponent<Soundwave>().psychoMaterial = psychoMaterial;
                 sound.GetComponent<Soundwave>().splashSource = splashSource;
                 sound.GetComponent<Soundwave>().splashParticles = splashParticles;
+                sound.GetComponent<Soundwave>().splashClip = splashClip;
+                sound.GetComponent<Soundwave>().hurtClip = hurtClip;
                 mode = Mode.ThrowSnowballs;
                 particles.Play();
             }

@@ -17,7 +17,8 @@ public class Soundwave : MonoBehaviour {
     public Material psychoMaterial;
     public AudioSource splashSource;
     public ParticleSystem splashParticles;
-
+    public AudioClip splashClip;
+    public AudioClip hurtClip;
 
     // Use this for initialization
     void Start () {
@@ -50,6 +51,7 @@ public class Soundwave : MonoBehaviour {
             {
                 if (!splashSource.isPlaying)
                 {
+                    splashSource.clip = splashClip;
                     splashSource.Play();
                     splashSource.transform.position = hitInfo.point;
                     splashParticles.transform.position = hitInfo.point;
@@ -59,6 +61,15 @@ public class Soundwave : MonoBehaviour {
             }
             else
             {
+                if (!splashSource.isPlaying)
+                {
+                    splashSource.clip = hurtClip;
+                    splashSource.Play();
+                    splashSource.transform.position = end;
+                    splashParticles.transform.position = end;
+                    splashParticles.Play();
+                    Debug.DrawRay(start, hitInfo.point, Color.red, 1.0f, true);
+                }
                 pushingplayer = true;
                 Vector3 moveForce = player.transform.position - source.transform.position;
                 moveForce *= (1.0f / (moveForce.magnitude));
