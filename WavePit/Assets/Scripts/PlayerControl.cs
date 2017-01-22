@@ -18,7 +18,6 @@ public class PlayerControl : MonoBehaviour {
     public AudioClip dieClip;
     public AudioClip winClip;
     public AudioSource winLoseSource;
-
     public Sprite yetiHug;
 	// Use this for initialization
 	void Start () {
@@ -80,6 +79,8 @@ public class PlayerControl : MonoBehaviour {
         float time = 0;
 		Destroy(FindObjectOfType<SoundWaveGenerator>().GetComponentInChildren<Animator>());
 		FindObjectOfType<SoundWaveGenerator>().GetComponentInChildren<SpriteRenderer>().sprite = yetiHug;
+        FindObjectOfType<SoundWaveGenerator>().enabled = false;
+       
         animator.gameObject.SetActive(false);
         while (time < 5 * 0.1f)
         {

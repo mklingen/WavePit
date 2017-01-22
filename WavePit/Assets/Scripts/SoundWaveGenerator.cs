@@ -28,7 +28,7 @@ public class SoundWaveGenerator : MonoBehaviour {
     public AudioClip hurtClip;
     public GameObject snowBall;
     public Animator animator;
-
+    public GameObject mySprite;
     public enum Mode
     {
         GenerateSounds,
@@ -47,7 +47,7 @@ public class SoundWaveGenerator : MonoBehaviour {
 	void Update () {
         currentTime += Time.deltaTime;
         GetComponent<WindZone>().windMain *= 0.9f;
-        gameObject.transform.LookAt(player.transform);
+        mySprite.transform.LookAt(Camera.main.transform);
         if (currentTime > soundGenerateTime - hitSoundWarmupTime && !playedSound && mode == Mode.GenerateSounds)
         {
             var source = GetComponent<AudioSource>();
