@@ -20,7 +20,7 @@ public class SoundWaveGenerator : MonoBehaviour {
     public AudioSource splashSource;
     public ParticleSystem splashParticles;
     public GameObject snowBall;
-
+    public Animator animator;
 
     public enum Mode
     {
@@ -39,7 +39,7 @@ public class SoundWaveGenerator : MonoBehaviour {
 	void Update () {
         currentTime += Time.deltaTime;
         GetComponent<WindZone>().windMain *= 0.9f;
-
+        gameObject.transform.LookAt(player.transform);
         if (currentTime > soundGenerateTime - hitSoundWarmupTime && !playedSound)
         {
             var source = GetComponent<AudioSource>();
@@ -47,6 +47,7 @@ public class SoundWaveGenerator : MonoBehaviour {
             source.Play();
             playedSound = true;
         }
+        animator.Play("Smash", 0, currentTime / soundGenerateTime);
         if (currentTime > soundGenerateTime)
         {
             if (mode == Mode.GenerateSounds)
