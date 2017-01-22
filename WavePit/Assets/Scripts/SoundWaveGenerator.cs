@@ -18,7 +18,7 @@ public class SoundWaveGenerator : MonoBehaviour {
     public bool playedSound = false;
     public float hitSoundWarmupTime;
     public AudioSource splashSource;
-
+    public ParticleSystem splashParticles;
 
     // Use this for initialization
     void Start () {
@@ -44,6 +44,7 @@ public class SoundWaveGenerator : MonoBehaviour {
             sound.GetComponent<Soundwave>().source = gameObject;
             sound.GetComponent<Soundwave>().psychoMaterial = psychoMaterial;
             sound.GetComponent<Soundwave>().splashSource = splashSource;
+            sound.GetComponent<Soundwave>().splashParticles = splashParticles;
             currentTime = 0;
             particles.Play();
             playedSound = false;

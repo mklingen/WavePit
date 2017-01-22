@@ -16,6 +16,7 @@ public class Soundwave : MonoBehaviour {
     public Vector3 currentPushForce = Vector3.zero;
     public Material psychoMaterial;
     public AudioSource splashSource;
+    public ParticleSystem splashParticles;
 
     // Use this for initialization
     void Start () {
@@ -38,7 +39,11 @@ public class Soundwave : MonoBehaviour {
         int mask = 1 << raycastLayer;
         if (Mathf.Abs(playerdist - currentSize * 0.5f) < 5.0f)
         {
-            bool rayCastSuccess = Physics.Raycast(source.transform.position, player.transform.position - source.transform.position, out hitInfo, currentSize * 0.5f, mask);
+            Vector3 dir = player.transform.position - source.transform.position;
+            dir = dir.normalized;
+            Vector3 start = source.transform.position + dir * currentSize * 0.2f;
+            Vector3 end = player.transform.position;
+            bool rayCastSuccess = Physics.Raycast(start, dir, out hitInfo, (start - end).magnitude, mask);
 
             if (rayCastSuccess)
             {
@@ -46,6 +51,9 @@ public class Soundwave : MonoBehaviour {
                 {
                     splashSource.Play();
                     splashSource.transform.position = hitInfo.point;
+                    splashParticles.transform.position = hitInfo.point;
+                    splashParticles.Play();
+                    Debug.DrawRay(start, hitInfo.point, Color.red, 1.0f, true);
                 }
             }
             else
